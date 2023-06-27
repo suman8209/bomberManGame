@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Mine Swipper Game</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<div id="wrapper">
+		<div class="header">
+			<h1>MINEWEPER GAME</h1>
+		<div class="score">
+			<h3>Score:<span id="score"> 0 </span></h3>
+			<button>RESET</button>
+		</div>
+		</div>
+		<div id="content">
+			<div class="boxes"></div>
+			<div class="bomb">
+				<p>Gameover</p>
+			</div>
+		</div>
+		
+	</div>
+
+	<script>
+		let Game=document.querySelector("#content");
+		let boxesContent=document.querySelector(".boxes")
+		let finleScore=document.querySelector("#score")
+		let gameOver=document.querySelector(".bomb")
+		let reset= document.querySelector("button")
+		let boxes=[]
+		let random=[]
+		let score=0 
+		window.addEventListener("load",createDiv)
+		function createDiv(){
+			for (var i = 0; i < 81 ; i++){
+				let div = document.createElement("div")
+				div.classList.add("box")
+				div.id="box"+i
+				boxesContent.append(div)
+				let box =document.querySelectorAll(".boxes .box")
+				boxes =box
+				div.addEventListener("click", () => {
+					if (random.includes(Number(div.id.slice(3)))){
+						random.forEach((wrong)=>{
+							boxes[wrong].classList.add("wrong")
+						})
+						gameOver.classList.add("gameOver")
+					}else{
+						if(div.classList.contains("right")){
+							return false;
+						}else{
+							div.classList.add("right")
+							finleScore.innerHTML=++score
+						}
+					}
+				})
+			}
+			randomValue()
+		}
+		function randomValue(){
+			for(let i =0; i<10;i++){
+				let bomb=Math.floor(Math .random()*81)
+				random.push(bomb)
+			}
+			console.log(random)
+		}
+		reset.onclick=()=>{
+			boxesContent.innerHTML=""
+			gameOver.classList.remove("gameOver")
+			score=0
+			finleScore.innerHTML=score
+			random=[]
+			createDiv()
+		}
+				
+	</script>
+
+</body>
+</html>
